@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html>
+<head i18n-values="dir:textdirection;">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta charset="utf-8"/>
+<title>Android System Trace</title>
+<style>
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    -webkit-flex-direction: column;
+    display: -webkit-flex;
+    margin: 0;
+    padding: 0;
+  }
+
+  body > tr-ui-timeline-view {
+    -webkit-flex: 1 1 auto;
+    min-height: 0;
+  }
+  body > tr-ui-timeline-view:focus {
+    outline: none;
+  }
+</style>
+
+</head>
+<body>
+  <tr-ui-timeline-view>
+    <track-view-container id='track_view_container'></track-view-container>
+  </tr-ui-timeline-view>
+
+  <script>
+  'use strict';
+  var timelineViewEl;
+
+  function onLoad() {
+    timelineViewEl = document.querySelector('tr-ui-timeline-view');
+    timelineViewEl.globalMode = true;
+
+    var traceDataEls = document.body.querySelectorAll('.trace-data');
+    var traces = [];
+    for (var i = 0; i < traceDataEls.length; i++) {
+      var traceText = traceDataEls[i].textContent;
+      // Remove the leading newline.
+      traceText = traceText.substring(1);
+      traces.push(traceText);
+    }
+
+    var m = new tr.Model();
+    var i = new tr.importer.Import(m);
+    var p = i.importTracesWithProgressDialog(traces);
+    p.then(
+      function() {
+        timelineViewEl.model = m;
+        timelineViewEl.updateDocumentFavicon();
+        timelineViewEl.globalMode = true;
+        timelineViewEl.viewTitle = 'Android System Trace';
+      },
+      function(err) {
+        var overlay = new tr.ui.b.Overlay();
+        overlay.textContent = tr.b.normalizeException(err).message;
+        overlay.title = 'Import error';
+        overlay.visible = true;
+      });
+  }
+  window.addEventListener('load', onLoad);
+  </script>
+<!-- BEGIN TRACE -->
+  <script class="trace-data" type="application/text">
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 1188/1188   #P:4
+#
+#                                      _-----=> irqs-off
+#                                     / _----=> need-resched
+#                                    | / _---=> hardirq/softirq
+#                                    || / _--=> preempt-depth
+#                                    ||| /     delay
+#           TASK-PID    TGID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |        |      |   ||||       |         |
+          atrace-2997  ( 2997) [000] d..3  1296.839413: sched_switch: prev_comm=atrace prev_pid=2997 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNH6  1296.845457: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1296.845513: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1296.845591: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs4  1296.857186: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1296.857207: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1296.857236: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1296.880795: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1296.882069: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1296.882439: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1296.882514: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1296.882546: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1296.882641: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1296.949377: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1296.949410: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1296.949529: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1296.949598: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1296.949626: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1296.949733: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNh4  1297.005289: sched_wakeup: comm=WifiStateMachin pid=739 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1297.005342: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=WifiStateMachin next_pid=739 next_prio=120
+ WifiStateMachin-739   (  668) [002] d..4  1297.006005: sched_wakeup: comm=wpa_supplicant pid=758 prio=120 success=1 target_cpu=002
+ WifiStateMachin-739   (  668) [002] d..3  1297.006032: sched_switch: prev_comm=WifiStateMachin prev_pid=739 prev_prio=120 prev_state=S ==> next_comm=wpa_supplicant next_pid=758 next_prio=120
+  wpa_supplicant-758   (  758) [002] d..4  1297.006139: sched_wakeup: comm=WifiStateMachin pid=739 prio=120 success=1 target_cpu=002
+  wpa_supplicant-758   (  758) [002] d..3  1297.006169: sched_switch: prev_comm=wpa_supplicant prev_pid=758 prev_prio=120 prev_state=S ==> next_comm=WifiStateMachin next_pid=739 next_prio=120
+ WifiStateMachin-739   (  668) [002] d..3  1297.007057: sched_switch: prev_comm=WifiStateMachin prev_pid=739 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNH6  1297.009558: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1297.009571: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1297.009586: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNs5  1297.012647: sched_wakeup: comm=kworker/2:1 pid=52 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1297.012659: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/2:1 next_pid=52 next_prio=120
+     kworker/2:1-52    (   52) [002] d..3  1297.012675: sched_switch: prev_comm=kworker/2:1 prev_pid=52 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.016416: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.016461: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.016661: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.016737: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.016760: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.016876: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNs4  1297.022472: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1297.022509: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1297.022557: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.086500: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.086564: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.086725: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.086758: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.086792: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.086916: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.153997: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.154063: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.154264: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.154316: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.154363: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.154516: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.226924: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.226989: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.227172: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.227274: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.227308: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.227509: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh4  1297.283607: sched_wakeup: comm=local_gps pid=296 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1297.283649: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=local_gps next_pid=296 next_prio=120
+       local_gps-296   (  296) [003] d..3  1297.283682: sched_switch: prev_comm=local_gps prev_pid=296 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.294522: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.294572: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.294716: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.294801: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.294827: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.294940: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.367174: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.367238: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.367420: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.367523: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.367557: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.367709: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.437202: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.437242: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.437360: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.437432: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.437450: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.437540: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNs5  1297.476992: sched_wakeup: comm=kworker/1:1 pid=56 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.477098: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/1:1 next_pid=56 next_prio=120
+     kworker/1:1-56    (   56) [001] d..3  1297.477122: sched_switch: prev_comm=kworker/1:1 prev_pid=56 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.504108: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.504160: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.504339: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.504443: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.504468: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.504582: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.572466: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.572540: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.572826: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.572872: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.572919: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.573143: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.644369: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.644421: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.644603: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.644731: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.644780: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.645027: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.717438: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.717491: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.717674: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.717784: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.717837: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.718088: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.787001: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.787032: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.787150: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.787217: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.787238: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.787339: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.810362: sched_wakeup: comm=system_server pid=668 prio=118 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.810414: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=system_server next_pid=668 next_prio=118
+   system_server-668   (  668) [001] d..3  1297.810766: sched_switch: prev_comm=system_server prev_pid=668 prev_prio=118 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNH6  1297.816817: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.816848: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [001] d..3  1297.816888: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNs4  1297.826845: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.826925: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [001] d..3  1297.827032: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.854120: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.854184: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.854367: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.854468: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.854501: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.854653: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.921633: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.921725: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.921862: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.921892: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.921920: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.922023: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs6  1297.928505: sched_wakeup: comm=adbd pid=2772 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.928555: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=2772 next_prio=120
+            adbd-2772  (  122) [000] d..4  1297.928653: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+            adbd-2772  (  122) [000] d..3  1297.928682: sched_switch: prev_comm=adbd prev_pid=2772 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] d..4  1297.928736: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..4  1297.928779: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [001] d..3  1297.928992: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [001] dN.4  1297.930405: sched_wakeup: comm=migration/1 pid=11 prio=0 success=1 target_cpu=001
+              ls-2999  ( 2999) [001] dNH6  1297.930984: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=001
+              ls-2999  ( 2999) [001] d..3  1297.930999: sched_switch: prev_comm=adbd prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=migration/1 next_pid=11 next_prio=0
+     migration/1-11    (   11) [001] d..3  1297.931027: sched_switch: prev_comm=migration/1 prev_pid=11 prev_prio=0 prev_state=S ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+          <idle>-0     (-----) [002] d..3  1297.931033: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=2999 next_prio=120
+     rcu_preempt-8     (    8) [001] d..3  1297.931051: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [001] d..3  1297.931067: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=3000 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.931100: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=D ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1297.931113: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+            adbd-3000  (  122) [001] dNh3  1297.931132: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=001
+            adbd-3000  (  122) [001] d..3  1297.931198: sched_switch: prev_comm=adbd prev_pid=3000 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [001] d..3  1297.931208: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=D ==> next_comm=adbd next_pid=3000 next_prio=120
+            adbd-3000  (  122) [001] dN.4  1297.931236: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=001
+            adbd-3000  (  122) [001] d..3  1297.931240: sched_switch: prev_comm=adbd prev_pid=3000 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.931276: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.931306: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.931411: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+            adbd-2771  (  122) [001] d..3  1297.931440: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=3000 next_prio=120
+            adbd-3000  (  122) [001] d..3  1297.931460: sched_switch: prev_comm=adbd prev_pid=3000 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+              ls-2999  ( 2999) [002] dN.4  1297.934215: sched_wakeup: comm=migration/2 pid=15 prio=0 success=1 target_cpu=002
+              ls-2999  ( 2999) [002] d..3  1297.934221: sched_switch: prev_comm=sh prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=migration/2 next_pid=15 next_prio=0
+     migration/2-15    (   15) [002] d..3  1297.934270: sched_switch: prev_comm=migration/2 prev_pid=15 prev_prio=0 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] d..3  1297.934340: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=sh next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.936978: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.936982: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.936985: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937024: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937030: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937032: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937036: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937058: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937061: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937063: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937068: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937072: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937074: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937078: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.937086: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+              ls-2999  ( 2999) [003] dN.4  1297.937101: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937103: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937105: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937110: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+          <idle>-0     (-----) [000] d..3  1297.937110: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=122 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937115: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937117: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937121: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937136: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937138: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937140: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937145: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937149: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937151: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937155: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937171: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937173: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937175: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.937187: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=D ==> next_comm=swapper/0 next_pid=0 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937210: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937218: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937222: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.937225: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+     kworker/3:1-60    (   60) [003] d..3  1297.937230: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+          <idle>-0     (-----) [000] d..3  1297.937239: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=122 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937255: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+            adbd-122   (  122) [000] dN.4  1297.937256: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+              ls-2999  ( 2999) [003] dN.4  1297.937259: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+            adbd-122   (  122) [000] d..3  1297.937259: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+              ls-2999  ( 2999) [003] d..3  1297.937261: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937266: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937270: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937272: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937277: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937292: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937293: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937403: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937412: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937418: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937422: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937428: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937450: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937452: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937454: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937459: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937463: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+            adbd-2771  (  122) [000] d..3  1297.937476: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+              ls-2999  ( 2999) [003] d..3  1297.937476: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.937550: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937552: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937606: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937609: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937613: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937621: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937628: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937631: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937638: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937664: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937668: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937671: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937684: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937692: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937695: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937702: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937729: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937733: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937736: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937743: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937749: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937751: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937758: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937775: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937777: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937779: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937784: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937788: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937790: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937794: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937808: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937810: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [000] dNs6  1297.937812: sched_wakeup: comm=adbd pid=2772 prio=120 success=1 target_cpu=000
+              ls-2999  ( 2999) [003] d..3  1297.937813: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937817: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937822: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937824: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937828: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+          <idle>-0     (-----) [000] d..3  1297.937832: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=2772 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937842: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937844: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937846: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937851: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+            adbd-2772  (  122) [000] d..4  1297.937855: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+              ls-2999  ( 2999) [003] dN.4  1297.937855: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937857: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937861: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+            adbd-2772  (  122) [000] d..3  1297.937870: sched_switch: prev_comm=adbd prev_pid=2772 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937875: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937877: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937879: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937884: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937888: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937890: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.937894: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+     kworker/3:1-60    (   60) [003] d..3  1297.937894: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.937897: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.937901: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937908: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937910: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937912: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937917: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937921: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937923: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.937931: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=D ==> next_comm=swapper/0 next_pid=0 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937957: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.937964: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+              ls-2999  ( 2999) [003] dN.4  1297.937974: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.937976: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937978: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+          <idle>-0     (-----) [000] d..3  1297.937979: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=122 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937983: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.937987: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.937989: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.937993: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.938002: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.938004: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938007: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938009: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938011: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938016: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938020: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938022: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938026: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938041: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938043: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938045: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938049: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938054: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938056: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.938057: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938060: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938075: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938077: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938079: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.938079: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938087: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938092: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938094: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938099: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938113: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938115: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938117: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938121: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938125: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938127: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938131: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938146: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938148: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938150: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938154: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938158: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938160: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938164: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938178: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938180: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938229: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938234: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938239: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938241: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938245: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938270: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938274: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938278: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938286: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938292: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938295: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938301: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938328: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938331: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938334: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938342: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938349: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938353: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938360: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938385: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938388: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938392: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938401: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938407: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938411: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938416: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938442: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938444: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938446: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938451: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938455: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938457: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+          <idle>-0     (-----) [000] dNs6  1297.938460: sched_wakeup: comm=adbd pid=2772 prio=120 success=1 target_cpu=000
+     kworker/3:1-60    (   60) [003] d..3  1297.938461: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938476: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938478: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938480: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+          <idle>-0     (-----) [000] d..3  1297.938481: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=2772 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938485: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938489: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938491: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938495: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+            adbd-2772  (  122) [000] d..4  1297.938497: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+              ls-2999  ( 2999) [003] dN.4  1297.938510: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+            adbd-2772  (  122) [000] d..3  1297.938510: sched_switch: prev_comm=adbd prev_pid=2772 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938512: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938514: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938519: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938523: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938525: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938529: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.938533: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.938536: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.938540: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938543: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938545: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938547: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938554: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938558: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938561: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938565: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938579: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938581: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+            adbd-122   (  122) [000] dN.4  1297.938582: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+              ls-2999  ( 2999) [003] d..3  1297.938583: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.938584: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938588: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938592: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938594: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938598: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938613: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938615: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938617: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938622: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938626: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938628: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938632: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.938638: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938647: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938649: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938651: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938655: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938659: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+            adbd-122   (  122) [000] d..3  1297.938660: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+              ls-2999  ( 2999) [003] d..3  1297.938661: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938666: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938681: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938683: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938685: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938689: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938693: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938695: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938701: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938844: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938848: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938851: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938861: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938868: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938920: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938928: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938964: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.938968: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938971: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938980: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.938987: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.938991: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.938997: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.939019: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.939022: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.939024: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.939028: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.939032: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.939035: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+          <idle>-0     (-----) [000] dNs6  1297.939035: sched_wakeup: comm=adbd pid=2772 prio=120 success=1 target_cpu=000
+     kworker/3:1-60    (   60) [003] d..3  1297.939039: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.939057: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] dN.4  1297.939060: sched_wakeup: comm=ls pid=2999 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.939062: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.939066: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+          <idle>-0     (-----) [000] d..3  1297.939067: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=2772 next_prio=120
+              ls-2999  ( 2999) [003] dN.4  1297.939071: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..3  1297.939073: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1297.939077: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=2999 next_prio=120
+            adbd-2772  (  122) [000] d..4  1297.939093: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+            adbd-2772  (  122) [000] d..3  1297.939115: sched_switch: prev_comm=adbd prev_pid=2772 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.939160: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.939165: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.939171: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.939235: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.939239: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+              ls-2999  ( 2999) [003] d..6  1297.939246: sched_wakeup: comm=adbd pid=3000 prio=120 success=1 target_cpu=003
+              ls-2999  ( 2999) [003] d..4  1297.939251: sched_switch: prev_comm=ls prev_pid=2999 prev_prio=120 prev_state=x ==> next_comm=adbd next_pid=3000 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.939370: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.939387: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=D ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1297.939441: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.939463: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.939477: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.939480: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-3000  (  122) [003] d..4  1297.939480: sched_switch: prev_comm=adbd prev_pid=3000 prev_prio=120 prev_state=x ==> next_comm=swapper/3 next_pid=0 next_prio=120
+            adbd-2771  (  122) [000] d.s7  1297.939800: sched_wakeup: comm=adbd pid=2772 prio=120 success=1 target_cpu=000
+            adbd-2771  (  122) [000] d..3  1297.939828: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=2772 next_prio=120
+            adbd-2772  (  122) [000] d..3  1297.939872: sched_switch: prev_comm=adbd prev_pid=2772 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dNs5  1297.939944: sched_wakeup: comm=adbd pid=2772 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.939948: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2772 next_prio=120
+            adbd-2772  (  122) [000] d..3  1297.939999: sched_switch: prev_comm=adbd prev_pid=2772 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.940025: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.940029: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1297.940036: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.940073: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.940076: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.940080: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.940104: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.940106: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.940110: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.940138: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs5  1297.941434: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.941443: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1297.941486: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNs5  1297.949662: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1297.949679: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [003] d..3  1297.949710: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNH6  1297.958166: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1297.958203: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1297.958221: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs6  1297.968806: sched_wakeup: comm=genyd pid=96 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.968862: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=genyd next_pid=96 next_prio=120
+           genyd-96    (   96) [000] d..3  1297.969065: sched_switch: prev_comm=genyd prev_pid=96 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNs4  1297.969575: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1297.969584: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1297.969603: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs6  1297.970366: sched_wakeup: comm=adbd pid=2772 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.970474: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=2772 next_prio=120
+            adbd-2772  (  122) [000] d..4  1297.970525: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+            adbd-2772  (  122) [000] d..3  1297.970696: sched_switch: prev_comm=adbd prev_pid=2772 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.970771: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.970777: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.970828: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.970889: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.970894: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1297.970903: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.970913: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.970917: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1297.970924: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] dN.4  1297.971259: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.971265: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.971385: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.971453: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] d..3  1297.971565: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=3001 next_prio=120
+              ls-3001  ( 3001) [001] dN.4  1297.971668: sched_wakeup: comm=migration/1 pid=11 prio=0 success=1 target_cpu=001
+              ls-3001  ( 3001) [001] d..3  1297.971673: sched_switch: prev_comm=adbd prev_pid=3001 prev_prio=120 prev_state=R+ ==> next_comm=migration/1 next_pid=11 next_prio=0
+     migration/1-11    (   11) [001] d..3  1297.971716: sched_switch: prev_comm=migration/1 prev_pid=11 prev_prio=0 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] d..3  1297.971778: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=3002 next_prio=120
+          <idle>-0     (-----) [003] d..3  1297.975008: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=3001 next_prio=120
+            adbd-3002  (  122) [002] dNh4  1297.975073: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [000] d..3  1297.980765: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1297.980782: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+            adbd-3002  (  122) [002] d..3  1297.981021: sched_switch: prev_comm=adbd prev_pid=3002 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+              ls-3001  ( 3001) [003] dN.4  1297.985023: sched_wakeup: comm=migration/3 pid=19 prio=0 success=1 target_cpu=003
+              ls-3001  ( 3001) [003] d..3  1297.985248: sched_switch: prev_comm=sh prev_pid=3001 prev_prio=120 prev_state=R+ ==> next_comm=migration/3 next_pid=19 next_prio=0
+     migration/3-19    (   19) [003] d..3  1297.985316: sched_switch: prev_comm=migration/3 prev_pid=19 prev_prio=0 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] d..3  1297.986257: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=sh next_pid=3001 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1297.988705: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1297.988726: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1297.988893: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+              ls-3001  ( 3001) [000] dNh2  1297.988903: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] d..3  1297.988907: sched_switch: prev_comm=ls prev_pid=3001 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1297.989010: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=ls next_pid=3001 next_prio=120
+              ls-3001  ( 3001) [000] dNs3  1297.989450: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] d..3  1297.989478: sched_switch: prev_comm=ls prev_pid=3001 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1297.989491: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=3001 next_prio=120
+              ls-3001  ( 3001) [000] dN.4  1297.991372: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] dN.4  1297.991378: sched_wakeup: comm=ls pid=3001 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] d..3  1297.991384: sched_switch: prev_comm=ls prev_pid=3001 prev_prio=120 prev_state=R+ ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..4  1297.991397: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+     kworker/0:1-2892  ( 2892) [000] d..3  1297.991405: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] d..4  1297.991632: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.991671: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.992095: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=3001 next_prio=120
+              ls-3001  ( 3001) [000] dN.4  1297.992114: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] dN.4  1297.992119: sched_wakeup: comm=ls pid=3001 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] d..3  1297.992122: sched_switch: prev_comm=ls prev_pid=3001 prev_prio=120 prev_state=R+ ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1297.992133: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=3001 next_prio=120
+              ls-3001  ( 3001) [000] dN.4  1297.992143: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] dN.4  1297.992146: sched_wakeup: comm=ls pid=3001 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] d..3  1297.992149: sched_switch: prev_comm=ls prev_pid=3001 prev_prio=120 prev_state=R+ ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1297.992156: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=3001 next_prio=120
+              ls-3001  ( 3001) [000] dN.4  1297.992164: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] dN.4  1297.992168: sched_wakeup: comm=ls pid=3001 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] d..3  1297.992171: sched_switch: prev_comm=ls prev_pid=3001 prev_prio=120 prev_state=R+ ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1297.992177: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=ls next_pid=3001 next_prio=120
+              ls-3001  ( 3001) [000] d..6  1297.992438: sched_wakeup: comm=adbd pid=3002 prio=120 success=1 target_cpu=000
+              ls-3001  ( 3001) [000] d..4  1297.992446: sched_switch: prev_comm=ls prev_pid=3001 prev_prio=120 prev_state=x ==> next_comm=adbd next_pid=3002 next_prio=120
+            adbd-3002  (  122) [000] dN.4  1297.992564: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+            adbd-3002  (  122) [000] d..3  1297.992568: sched_switch: prev_comm=adbd prev_pid=3002 prev_prio=120 prev_state=R+ ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] d..3  1297.992655: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=3002 next_prio=120
+            adbd-3002  (  122) [000] d..4  1297.992747: sched_switch: prev_comm=adbd prev_pid=3002 prev_prio=120 prev_state=x ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs6  1297.993937: sched_wakeup: comm=adbd pid=2772 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.993948: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=2772 next_prio=120
+            adbd-2772  (  122) [000] d..4  1297.993991: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+            adbd-2772  (  122) [000] d..3  1297.994022: sched_switch: prev_comm=adbd prev_pid=2772 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] d..4  1297.994086: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..4  1297.994195: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.994226: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.994351: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1297.994366: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs6  1297.995722: sched_wakeup: comm=adbd pid=2772 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1297.995740: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=adbd next_pid=2772 next_prio=120
+            adbd-2772  (  122) [000] d..4  1297.995775: sched_wakeup: comm=adbd pid=122 prio=120 success=1 target_cpu=000
+            adbd-2772  (  122) [000] d..3  1297.995873: sched_switch: prev_comm=adbd prev_pid=2772 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=122 next_prio=120
+            adbd-122   (  122) [000] d..4  1297.995938: sched_wakeup: comm=adbd pid=2771 prio=120 success=1 target_cpu=000
+            adbd-122   (  122) [000] d..3  1297.996005: sched_switch: prev_comm=adbd prev_pid=122 prev_prio=120 prev_state=S ==> next_comm=adbd next_pid=2771 next_prio=120
+            adbd-2771  (  122) [000] d..3  1297.996017: sched_switch: prev_comm=adbd prev_pid=2771 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNs5  1297.999357: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1297.999367: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1297.999381: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNs5  1298.001944: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1298.002024: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1298.002088: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNh3  1298.002117: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1298.002142: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1298.002155: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNs5  1298.013462: sched_wakeup: comm=kworker/2:1 pid=52 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] dNs4  1298.013471: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1298.013504: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/2:1 next_pid=52 next_prio=120
+     kworker/2:1-52    (   52) [002] d..3  1298.013519: sched_switch: prev_comm=kworker/2:1 prev_pid=52 prev_prio=120 prev_state=S ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1298.013533: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNH6  1298.021517: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.021525: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1298.021537: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs4  1298.036481: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.036608: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1298.036797: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs5  1298.037684: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.037692: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1298.037704: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.056853: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.056956: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.057142: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.057248: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.057281: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.057386: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.126743: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.126776: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.126907: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.126935: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.126973: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.127076: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs5  1298.170996: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.171052: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1298.171097: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.197176: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.197398: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.197525: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.197568: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.197655: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.197769: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.267753: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.267779: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.267874: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.267936: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.267952: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.268042: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh4  1298.284661: sched_wakeup: comm=local_gps pid=296 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1298.284688: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=local_gps next_pid=296 next_prio=120
+       local_gps-296   (  296) [003] d..3  1298.284712: sched_switch: prev_comm=local_gps prev_pid=296 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.337271: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.337312: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.337477: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.337479: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.337494: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.337591: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.405230: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.405278: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.405458: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.405565: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.405597: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.405754: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.472439: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.472487: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.472670: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.472700: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.472733: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.472963: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh4  1298.483170: sched_wakeup: comm=netd pid=361 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.483232: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=netd next_pid=361 next_prio=120
+            netd-361   (  361) [000] d..3  1298.483263: sched_switch: prev_comm=netd prev_pid=361 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.539892: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.539932: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+          <idle>-0     (-----) [000] dNh3  1298.540133: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+   SensorService-714   (  668) [001] d..3  1298.540158: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] d..3  1298.540161: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.540262: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.608527: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.608576: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.608774: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.608817: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.608882: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.609178: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.677047: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.677069: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.677173: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.677193: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.677222: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.677308: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.747764: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.747791: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.747914: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.747915: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.747942: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.748031: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.812249: sched_wakeup: comm=system_server pid=668 prio=118 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.812280: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=system_server next_pid=668 next_prio=118
+   system_server-668   (  668) [001] d..3  1298.812502: sched_switch: prev_comm=system_server prev_pid=668 prev_prio=118 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNs5  1298.814152: sched_wakeup: comm=kworker/1:1 pid=56 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.814202: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/1:1 next_pid=56 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.814241: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+     kworker/1:1-56    (   56) [001] d..3  1298.814243: sched_switch: prev_comm=kworker/1:1 prev_pid=56 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] d..3  1298.814270: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1298.814281: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.817206: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.817217: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.817314: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.817332: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.817358: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.817441: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs4  1298.826941: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.827152: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1298.827176: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.884613: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.884665: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.884845: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.884952: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.884997: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.885147: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1298.956755: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1298.956791: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1298.956927: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1298.957009: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1298.957043: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1298.957158: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.026298: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.026326: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.026431: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.026450: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.026479: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.026589: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.098025: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.098159: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+          <idle>-0     (-----) [000] dNh3  1299.098467: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+   SensorService-714   (  668) [001] d.s5  1299.098469: sched_wakeup: comm=kworker/1:1 pid=56 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [000] d..3  1299.098511: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+   SensorService-714   (  668) [001] d..3  1299.098527: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=kworker/1:1 next_pid=56 next_prio=120
+     kworker/1:1-56    (   56) [001] d..3  1299.098548: sched_switch: prev_comm=kworker/1:1 prev_pid=56 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+      android.ui-689   (  668) [000] d..3  1299.098719: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.167553: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.167594: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.167717: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.167786: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.167814: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.167921: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.234684: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.234750: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.234932: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.235042: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.235087: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.235243: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh4  1299.285666: sched_wakeup: comm=local_gps pid=296 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1299.285697: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=local_gps next_pid=296 next_prio=120
+       local_gps-296   (  296) [003] d..3  1299.285722: sched_switch: prev_comm=local_gps prev_pid=296 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.305112: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.305509: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+          <idle>-0     (-----) [000] dNh3  1299.305747: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+   SensorService-714   (  668) [001] d..3  1299.305784: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] d..3  1299.305787: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.305888: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.378535: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.378587: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.378725: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.378809: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.378836: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.378936: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.448680: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.448724: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.448851: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.448877: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.448908: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.449013: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.516645: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.516695: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.516892: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.516947: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.517011: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.517162: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.588953: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.589005: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.589186: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.589288: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.589334: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.589488: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.658714: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.658761: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.658952: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.659035: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.659069: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.659188: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.728173: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.728220: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.728365: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.728399: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.728434: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.728556: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.797287: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.797324: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.797490: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.797593: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.797628: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.797743: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.814380: sched_wakeup: comm=system_server pid=668 prio=118 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.814448: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=system_server next_pid=668 next_prio=118
+   system_server-668   (  668) [001] d..3  1299.814724: sched_switch: prev_comm=system_server prev_pid=668 prev_prio=118 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNH6  1299.818533: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.818599: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [001] d..3  1299.818695: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNs4  1299.828144: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.828204: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [001] d..3  1299.828285: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.868545: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.868689: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.868846: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.868872: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.868899: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.868982: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1299.938459: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1299.938500: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1299.938751: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1299.938816: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1299.938848: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1299.938961: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNs5  1299.976041: sched_wakeup: comm=kworker/2:1 pid=52 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1299.976152: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/2:1 next_pid=52 next_prio=120
+     kworker/2:1-52    (   52) [002] d..3  1299.976204: sched_switch: prev_comm=kworker/2:1 prev_pid=52 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.005614: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.005651: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.005792: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.005874: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.005908: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.006022: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNh4  1300.011461: sched_wakeup: comm=WifiStateMachin pid=739 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1300.011500: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=WifiStateMachin next_pid=739 next_prio=120
+ WifiStateMachin-739   (  668) [002] d..4  1300.011926: sched_wakeup: comm=wpa_supplicant pid=758 prio=120 success=1 target_cpu=002
+ WifiStateMachin-739   (  668) [002] d..3  1300.011946: sched_switch: prev_comm=WifiStateMachin prev_pid=739 prev_prio=120 prev_state=S ==> next_comm=wpa_supplicant next_pid=758 next_prio=120
+  wpa_supplicant-758   (  758) [002] d..4  1300.012029: sched_wakeup: comm=WifiStateMachin pid=739 prio=120 success=1 target_cpu=002
+  wpa_supplicant-758   (  758) [002] d..3  1300.012052: sched_switch: prev_comm=wpa_supplicant prev_pid=758 prev_prio=120 prev_state=S ==> next_comm=WifiStateMachin next_pid=739 next_prio=120
+ WifiStateMachin-739   (  668) [002] d..3  1300.012518: sched_switch: prev_comm=WifiStateMachin prev_pid=739 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNH6  1300.016649: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1300.016661: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1300.016677: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNs4  1300.028397: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1300.028456: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1300.028534: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.077633: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.078053: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.078368: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.078475: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.078512: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.078635: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.145208: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.145257: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.145498: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.145602: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.145647: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.145796: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.216612: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.216645: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.216774: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.216802: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.216842: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.217068: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.284301: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.284338: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.284475: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.284554: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.284588: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.284710: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh4  1300.286719: sched_wakeup: comm=local_gps pid=296 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1300.286769: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=local_gps next_pid=296 next_prio=120
+       local_gps-296   (  296) [003] d..3  1300.286802: sched_switch: prev_comm=local_gps prev_pid=296 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.351890: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.351931: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.352088: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.352120: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.352168: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.352291: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNh4  1300.405659: sched_wakeup: comm=m.android.phone pid=1020 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1300.405700: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=m.android.phone next_pid=1020 next_prio=120
+ m.android.phone-1020  ( 1020) [002] d..4  1300.405846: sched_wakeup: comm=logd.writer pid=88 prio=130 success=1 target_cpu=002
+ m.android.phone-1020  ( 1020) [002] d..3  1300.405970: sched_switch: prev_comm=m.android.phone prev_pid=1020 prev_prio=120 prev_state=S ==> next_comm=logd.writer next_pid=88 next_prio=130
+          <idle>-0     (-----) [001] dNh3  1300.406073: sched_wakeup: comm=Binder_9 pid=1139 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] dNh3  1300.406117: sched_wakeup: comm=logd.reader.per pid=2891 prio=130 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.406123: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=Binder_9 next_pid=1139 next_prio=120
+          <idle>-0     (-----) [003] dNh3  1300.406136: sched_wakeup: comm=logd.reader.per pid=2779 prio=130 success=1 target_cpu=003
+     logd.writer-88    (   80) [002] d..3  1300.406139: sched_switch: prev_comm=logd.writer prev_pid=88 prev_prio=130 prev_state=S ==> next_comm=logd.reader.per next_pid=2891 next_prio=130
+ logd.reader.per-2891  (   80) [002] d..3  1300.406161: sched_switch: prev_comm=logd.reader.per prev_pid=2891 prev_prio=130 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] d..3  1300.406183: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=logd.reader.per next_pid=2779 next_prio=130
+ logd.reader.per-2779  (   80) [003] d..3  1300.406206: sched_switch: prev_comm=logd.reader.per prev_pid=2779 prev_prio=130 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh3  1300.406472: sched_wakeup: comm=PowerManagerSer pid=704 prio=116 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1300.406513: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=PowerManagerSer next_pid=704 next_prio=116
+        Binder_9-1139  (  668) [001] d..3  1300.406563: sched_switch: prev_comm=Binder_9 prev_pid=1139 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNh3  1300.406596: sched_wakeup: comm=m.android.phone pid=1020 prio=120 success=1 target_cpu=002
+ PowerManagerSer-704   (  668) [003] d..3  1300.406600: sched_switch: prev_comm=PowerManagerSer prev_pid=704 prev_prio=116 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] d..3  1300.406672: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=m.android.phone next_pid=1020 next_prio=120
+ m.android.phone-1020  ( 1020) [002] d..3  1300.406777: sched_switch: prev_comm=m.android.phone prev_pid=1020 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh3  1300.406841: sched_wakeup: comm=RILSender0 pid=1115 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1300.406874: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=RILSender0 next_pid=1115 next_prio=120
+      RILSender0-1115  ( 1020) [003] d..4  1300.407008: sched_wakeup: comm=rild pid=112 prio=120 success=1 target_cpu=003
+      RILSender0-1115  ( 1020) [003] d..3  1300.407071: sched_switch: prev_comm=RILSender0 prev_pid=1115 prev_prio=120 prev_state=S ==> next_comm=rild next_pid=112 next_prio=120
+            rild-112   (  101) [003] d..4  1300.407101: sched_wakeup: comm=RILReceiver0 pid=1127 prio=120 success=1 target_cpu=003
+            rild-112   (  101) [003] d..3  1300.407235: sched_switch: prev_comm=rild prev_pid=112 prev_prio=120 prev_state=S ==> next_comm=RILReceiver0 next_pid=1127 next_prio=120
+    RILReceiver0-1127  ( 1020) [003] d..3  1300.407256: sched_switch: prev_comm=RILReceiver0 prev_pid=1127 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [002] dNh3  1300.407279: sched_wakeup: comm=logd.writer pid=88 prio=130 success=1 target_cpu=002
+          <idle>-0     (-----) [001] dNh3  1300.407289: sched_wakeup: comm=genybaseband pid=115 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.407299: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=genybaseband next_pid=115 next_prio=120
+          <idle>-0     (-----) [002] d..3  1300.407309: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=logd.writer next_pid=88 next_prio=130
+    genybaseband-115   (  108) [001] d..4  1300.407317: sched_wakeup: comm=rild pid=114 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [003] dNh3  1300.407521: sched_wakeup: comm=logd.reader.per pid=2779 prio=130 success=1 target_cpu=003
+     logd.writer-88    (   80) [002] d..3  1300.407521: sched_switch: prev_comm=logd.writer prev_pid=88 prev_prio=130 prev_state=R+ ==> next_comm=rild next_pid=114 next_prio=120
+    genybaseband-115   (  108) [001] d.s4  1300.407539: sched_wakeup: comm=kworker/1:1 pid=56 prio=120 success=1 target_cpu=001
+            rild-114   (  101) [002] d..3  1300.407546: sched_switch: prev_comm=rild prev_pid=114 prev_prio=120 prev_state=S ==> next_comm=logd.writer next_pid=88 next_prio=130
+     logd.writer-88    (   80) [002] d..4  1300.407565: sched_wakeup: comm=logd.reader.per pid=2891 prio=130 success=1 target_cpu=002
+          <idle>-0     (-----) [003] d..3  1300.407570: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=logd.reader.per next_pid=2779 next_prio=130
+ logd.reader.per-2779  (   80) [003] d..3  1300.407595: sched_switch: prev_comm=logd.reader.per prev_pid=2779 prev_prio=130 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+     logd.writer-88    (   80) [002] dNh4  1300.407679: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=002
+     logd.writer-88    (   80) [002] d..3  1300.407687: sched_switch: prev_comm=logd.writer prev_pid=88 prev_prio=130 prev_state=R+ ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [002] d..3  1300.407702: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=logd.reader.per next_pid=2891 next_prio=130
+          <idle>-0     (-----) [003] dNh3  1300.407717: sched_wakeup: comm=logd.reader.per pid=2779 prio=130 success=1 target_cpu=003
+ logd.reader.per-2891  (   80) [002] d..3  1300.407719: sched_switch: prev_comm=logd.reader.per prev_pid=2891 prev_prio=130 prev_state=S ==> next_comm=logd.writer next_pid=88 next_prio=130
+     logd.writer-88    (   80) [002] d..4  1300.407734: sched_wakeup: comm=logd.reader.per pid=2891 prio=130 success=1 target_cpu=002
+          <idle>-0     (-----) [003] d..3  1300.407762: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=logd.reader.per next_pid=2779 next_prio=130
+     logd.writer-88    (   80) [002] d..3  1300.407764: sched_switch: prev_comm=logd.writer prev_pid=88 prev_prio=130 prev_state=S ==> next_comm=logd.reader.per next_pid=2891 next_prio=130
+ logd.reader.per-2891  (   80) [002] d..3  1300.407781: sched_switch: prev_comm=logd.reader.per prev_pid=2891 prev_prio=130 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+ logd.reader.per-2779  (   80) [003] d..3  1300.407785: sched_switch: prev_comm=logd.reader.per prev_pid=2779 prev_prio=130 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+    genybaseband-115   (  108) [001] d..3  1300.407808: sched_switch: prev_comm=genybaseband prev_pid=115 prev_prio=120 prev_state=S ==> next_comm=kworker/1:1 next_pid=56 next_prio=120
+     kworker/1:1-56    (   56) [001] d..3  1300.407830: sched_switch: prev_comm=kworker/1:1 prev_pid=56 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] d..3  1300.407892: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=genybaseband next_pid=3003 next_prio=120
+    genybaseband-3003  (  108) [000] d..4  1300.408051: sched_wakeup: comm=logd.writer pid=88 prio=130 success=1 target_cpu=000
+          <idle>-0     (-----) [002] dNh3  1300.408155: sched_wakeup: comm=rild pid=114 prio=120 success=1 target_cpu=002
+          <idle>-0     (-----) [002] d..3  1300.408200: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rild next_pid=114 next_prio=120
+            rild-114   (  101) [002] d..4  1300.408216: sched_wakeup: comm=genybaseband pid=115 prio=120 success=1 target_cpu=002
+    genybaseband-3003  (  108) [000] d..4  1300.408223: sched_switch: prev_comm=genybaseband prev_pid=3003 prev_prio=120 prev_state=x ==> next_comm=logd.writer next_pid=88 next_prio=130
+     logd.writer-88    (   80) [000] d..4  1300.408309: sched_wakeup: comm=logd.reader.per pid=2891 prio=130 success=1 target_cpu=000
+            rild-114   (  101) [002] d..3  1300.408326: sched_switch: prev_comm=rild prev_pid=114 prev_prio=120 prev_state=S ==> next_comm=genybaseband next_pid=115 next_prio=120
+    genybaseband-115   (  108) [002] d..3  1300.408354: sched_switch: prev_comm=genybaseband prev_pid=115 prev_prio=120 prev_state=S ==> next_comm=logd.reader.per next_pid=2891 next_prio=130
+          <idle>-0     (-----) [003] dNh3  1300.408362: sched_wakeup: comm=logd.reader.per pid=2779 prio=130 success=1 target_cpu=003
+     logd.writer-88    (   80) [000] d..3  1300.408363: sched_switch: prev_comm=logd.writer prev_pid=88 prev_prio=130 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh3  1300.408369: sched_wakeup: comm=rild pid=112 prio=120 success=1 target_cpu=003
+ logd.reader.per-2891  (   80) [002] d..3  1300.408382: sched_switch: prev_comm=logd.reader.per prev_pid=2891 prev_prio=130 prev_state=S ==> next_comm=rild next_pid=112 next_prio=120
+          <idle>-0     (-----) [003] d..3  1300.408400: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=logd.reader.per next_pid=2779 next_prio=130
+ logd.reader.per-2779  (   80) [003] d..3  1300.408414: sched_switch: prev_comm=logd.reader.per prev_pid=2779 prev_prio=130 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+            rild-112   (  101) [002] d..4  1300.408421: sched_wakeup: comm=RILReceiver0 pid=1127 prio=120 success=1 target_cpu=002
+            rild-112   (  101) [002] d..3  1300.408456: sched_switch: prev_comm=rild prev_pid=112 prev_prio=120 prev_state=S ==> next_comm=RILReceiver0 next_pid=1127 next_prio=120
+    RILReceiver0-1127  ( 1020) [002] d..4  1300.408650: sched_wakeup: comm=logd.writer pid=88 prio=130 success=1 target_cpu=002
+    RILReceiver0-1127  ( 1020) [002] d..5  1300.408679: sched_wakeup: comm=m.android.phone pid=1020 prio=120 success=1 target_cpu=002
+    RILReceiver0-1127  ( 1020) [002] d..3  1300.408766: sched_switch: prev_comm=RILReceiver0 prev_pid=1127 prev_prio=120 prev_state=S ==> next_comm=m.android.phone next_pid=1020 next_prio=120
+          <idle>-0     (-----) [003] dNh3  1300.408816: sched_wakeup: comm=Binder_2 pid=680 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1300.408866: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=Binder_2 next_pid=680 next_prio=120
+ m.android.phone-1020  ( 1020) [002] d..3  1300.408927: sched_switch: prev_comm=m.android.phone prev_pid=1020 prev_prio=120 prev_state=S ==> next_comm=logd.writer next_pid=88 next_prio=130
+        Binder_2-680   (  668) [003] d.h2  1300.408961: sched_wakeup: comm=Binder_4 pid=819 prio=120 success=1 target_cpu=003
+     logd.writer-88    (   80) [002] d..4  1300.408966: sched_wakeup: comm=logd.reader.per pid=2779 prio=130 success=1 target_cpu=002
+     logd.writer-88    (   80) [002] d..4  1300.408975: sched_wakeup: comm=logd.reader.per pid=2891 prio=130 success=1 target_cpu=002
+     logd.writer-88    (   80) [002] d..3  1300.408998: sched_switch: prev_comm=logd.writer prev_pid=88 prev_prio=130 prev_state=S ==> next_comm=logd.reader.per next_pid=2891 next_prio=130
+ logd.reader.per-2891  (   80) [002] d..3  1300.409008: sched_switch: prev_comm=logd.reader.per prev_pid=2891 prev_prio=130 prev_state=S ==> next_comm=logd.reader.per next_pid=2779 next_prio=130
+ logd.reader.per-2779  (   80) [002] d..3  1300.409027: sched_switch: prev_comm=logd.reader.per prev_pid=2779 prev_prio=130 prev_state=S ==> next_comm=Binder_4 next_pid=819 next_prio=120
+        Binder_2-680   (  668) [003] d..5  1300.409124: sched_wakeup: comm=PowerManagerSer pid=704 prio=116 success=1 target_cpu=003
+          <idle>-0     (-----) [000] dNh3  1300.409240: sched_wakeup: comm=servicemanager pid=291 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.409250: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=servicemanager next_pid=291 next_prio=120
+        Binder_2-680   (  668) [003] d..3  1300.409262: sched_switch: prev_comm=Binder_2 prev_pid=680 prev_prio=120 prev_state=S ==> next_comm=PowerManagerSer next_pid=704 next_prio=116
+        Binder_4-819   (  668) [002] d.h3  1300.409294: sched_wakeup: comm=RILReceiver0 pid=1127 prio=120 success=1 target_cpu=002
+  servicemanager-291   (  291) [000] d..3  1300.409310: sched_switch: prev_comm=servicemanager prev_pid=291 prev_prio=120 prev_state=S ==> next_comm=RILReceiver0 next_pid=1127 next_prio=120
+ PowerManagerSer-704   (  668) [003] d..3  1300.409330: sched_switch: prev_comm=PowerManagerSer prev_pid=704 prev_prio=116 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+        Binder_4-819   (  668) [002] d..4  1300.409344: sched_wakeup: comm=m.android.phone pid=1020 prio=120 success=1 target_cpu=002
+        Binder_4-819   (  668) [002] d..3  1300.409355: sched_switch: prev_comm=Binder_4 prev_pid=819 prev_prio=120 prev_state=S ==> next_comm=m.android.phone next_pid=1020 next_prio=120
+    RILReceiver0-1127  ( 1020) [000] d..3  1300.409368: sched_switch: prev_comm=RILReceiver0 prev_pid=1127 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+ m.android.phone-1020  ( 1020) [002] d..4  1300.409408: sched_wakeup: comm=Binder_4 pid=819 prio=120 success=1 target_cpu=002
+ m.android.phone-1020  ( 1020) [002] d..3  1300.409420: sched_switch: prev_comm=m.android.phone prev_pid=1020 prev_prio=120 prev_state=S ==> next_comm=Binder_4 next_pid=819 next_prio=120
+          <idle>-0     (-----) [001] dNh3  1300.409561: sched_wakeup: comm=system_server pid=668 prio=118 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.409571: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=system_server next_pid=668 next_prio=118
+          <idle>-0     (-----) [000] dNh3  1300.409618: sched_wakeup: comm=Binder_3 pid=1188 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.409625: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=Binder_3 next_pid=1188 next_prio=120
+   system_server-668   (  668) [001] d..3  1300.409649: sched_switch: prev_comm=system_server prev_pid=668 prev_prio=118 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh3  1300.409818: sched_wakeup: comm=PhoneStatusBar pid=1132 prio=130 success=1 target_cpu=001
+        Binder_3-1188  (  787) [000] d..3  1300.409820: sched_switch: prev_comm=Binder_3 prev_pid=1188 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] d..3  1300.409826: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=PhoneStatusBar next_pid=1132 next_prio=130
+        Binder_4-819   (  668) [002] d..4  1300.409827: sched_wakeup: comm=m.android.phone pid=1020 prio=120 success=1 target_cpu=002
+        Binder_4-819   (  668) [002] d..3  1300.409915: sched_switch: prev_comm=Binder_4 prev_pid=819 prev_prio=120 prev_state=S ==> next_comm=m.android.phone next_pid=1020 next_prio=120
+  PhoneStatusBar-1132  (  787) [001] d..3  1300.409931: sched_switch: prev_comm=PhoneStatusBar prev_pid=1132 prev_prio=130 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+ m.android.phone-1020  ( 1020) [002] d..3  1300.409980: sched_switch: prev_comm=m.android.phone prev_pid=1020 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs5  1300.412382: sched_wakeup: comm=kworker/0:1 pid=2892 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [003] dNs5  1300.412385: sched_wakeup: comm=kworker/3:1 pid=60 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1300.412402: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/3:1 next_pid=60 next_prio=120
+          <idle>-0     (-----) [000] d..3  1300.412410: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/0:1 next_pid=2892 next_prio=120
+     kworker/0:1-2892  ( 2892) [000] d..3  1300.412483: sched_switch: prev_comm=kworker/0:1 prev_pid=2892 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+     kworker/3:1-60    (   60) [003] d..3  1300.412581: sched_switch: prev_comm=kworker/3:1 prev_pid=60 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.418962: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.418980: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.419099: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.419164: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.419171: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.419272: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNs5  1300.420152: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1300.420175: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [003] d..3  1300.420231: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNs4  1300.428290: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1300.428332: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [003] d..3  1300.428365: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.486398: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.486439: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.486582: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.486674: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.486708: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.486829: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.554847: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.554887: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.555028: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.555113: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.555147: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.555262: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.626505: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.626544: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.626701: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.626735: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.626784: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.626906: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.698998: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.699093: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.699236: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.699275: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.699336: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.699464: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.769873: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.769912: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.770098: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.770151: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.770212: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.770394: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.815162: sched_wakeup: comm=system_server pid=668 prio=118 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.815195: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=system_server next_pid=668 next_prio=118
+   system_server-668   (  668) [001] d..3  1300.815459: sched_switch: prev_comm=system_server prev_pid=668 prev_prio=118 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNH6  1300.820161: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.820173: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [001] d..3  1300.820188: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNs4  1300.831949: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.831958: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [001] d..3  1300.831968: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.838441: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.838859: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.839178: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.839224: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.839271: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.839380: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.909064: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.909103: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.909241: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.909322: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.909356: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.909471: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1300.979794: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1300.980248: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1300.980445: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1300.980539: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1300.980571: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1300.980722: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.048270: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.048322: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.048502: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.048649: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.048680: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.048825: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.119329: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.119366: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.119510: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.119600: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.119636: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.119785: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.186917: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.186969: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.187206: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.187253: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.187279: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.187394: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.259291: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.259347: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.259529: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.259633: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.259666: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.259818: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh4  1301.287774: sched_wakeup: comm=local_gps pid=296 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1301.287816: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=local_gps next_pid=296 next_prio=120
+       local_gps-296   (  296) [003] d..3  1301.287849: sched_switch: prev_comm=local_gps prev_pid=296 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.330488: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.330527: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.330665: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.330747: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.330773: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.330893: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.384991: sched_wakeup: comm=local_opengl pid=295 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.385020: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=local_opengl next_pid=295 next_prio=120
+    local_opengl-295   (  295) [001] d..3  1301.385057: sched_switch: prev_comm=local_opengl prev_pid=295 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.397443: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.397477: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.397588: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.397611: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.397632: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.397787: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.464784: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.464833: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.464973: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.465056: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.465082: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.465195: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNs5  1301.476417: sched_wakeup: comm=kworker/1:1 pid=56 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.476475: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/1:1 next_pid=56 next_prio=120
+     kworker/1:1-56    (   56) [001] d..3  1301.476508: sched_switch: prev_comm=kworker/1:1 prev_pid=56 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.533417: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.533447: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.533553: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.533581: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.533603: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.533690: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.605165: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.605204: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.605342: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.605424: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.605450: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.605570: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.676868: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.676921: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.677170: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.677210: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.677246: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.677362: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.744034: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.744081: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.744263: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.744372: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.744405: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.744572: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh4  1301.749334: sched_wakeup: comm=healthd pid=289 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1301.749388: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=healthd next_pid=289 next_prio=120
+         healthd-289   (  289) [003] d..3  1301.750603: sched_switch: prev_comm=healthd prev_pid=289 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.750705: sched_wakeup: comm=init pid=1 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.750739: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=init next_pid=1 next_prio=120
+            init-1     (    1) [000] d..3  1301.750917: sched_switch: prev_comm=init prev_pid=1 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh3  1301.751013: sched_wakeup: comm=healthd pid=289 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1301.751023: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=healthd next_pid=289 next_prio=120
+         healthd-289   (  289) [003] d..3  1301.751221: sched_switch: prev_comm=healthd prev_pid=289 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.751324: sched_wakeup: comm=init pid=1 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.751334: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=init next_pid=1 next_prio=120
+          <idle>-0     (-----) [003] dNh3  1301.751509: sched_wakeup: comm=healthd pid=289 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1301.751518: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=healthd next_pid=289 next_prio=120
+            init-1     (    1) [000] d..3  1301.751538: sched_switch: prev_comm=init prev_pid=1 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+         healthd-289   (  289) [003] d..3  1301.752166: sched_switch: prev_comm=healthd prev_pid=289 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.752201: sched_wakeup: comm=init pid=1 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.752208: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=init next_pid=1 next_prio=120
+            init-1     (    1) [000] d..3  1301.752314: sched_switch: prev_comm=init prev_pid=1 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] dNh3  1301.752337: sched_wakeup: comm=healthd pid=289 prio=120 success=1 target_cpu=003
+          <idle>-0     (-----) [003] d..3  1301.752344: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=healthd next_pid=289 next_prio=120
+         healthd-289   (  289) [003] d..3  1301.752466: sched_switch: prev_comm=healthd prev_pid=289 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh3  1301.752494: sched_wakeup: comm=Binder_3 pid=715 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.752517: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=Binder_3 next_pid=715 next_prio=120
+          <idle>-0     (-----) [003] dNh5  1301.752653: sched_wakeup: comm=logd.klogd pid=93 prio=130 success=1 target_cpu=003
+          <idle>-0     (-----) [000] dNH6  1301.752690: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.752697: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1301.752735: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.752819: sched_wakeup: comm=android.fg pid=692 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] dNh3  1301.752825: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.752830: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.fg next_pid=692 next_prio=120
+        Binder_3-715   (  668) [001] d..3  1301.752842: sched_switch: prev_comm=Binder_3 prev_pid=715 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [003] d..3  1301.752901: sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=logd.klogd next_pid=93 next_prio=130
+      android.fg-692   (  668) [000] d..3  1301.752912: sched_switch: prev_comm=android.fg prev_pid=692 prev_prio=120 prev_state=S ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1301.752923: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+      logd.klogd-93    (   80) [003] d..3  1301.752997: sched_switch: prev_comm=logd.klogd prev_pid=93 prev_prio=130 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs4  1301.765887: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.765906: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1301.765930: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNs4  1301.777568: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.777593: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [000] d..3  1301.777627: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.810994: sched_wakeup: comm=SensorService pid=714 prio=112 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.811084: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=SensorService next_pid=714 next_prio=112
+   SensorService-714   (  668) [001] d..3  1301.811266: sched_switch: prev_comm=SensorService prev_pid=714 prev_prio=112 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh3  1301.811432: sched_wakeup: comm=android.ui pid=689 prio=118 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.811466: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=android.ui next_pid=689 next_prio=118
+      android.ui-689   (  668) [000] d..3  1301.811668: sched_switch: prev_comm=android.ui prev_pid=689 prev_prio=118 prev_state=S ==> next_comm=swapper/0 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNh4  1301.817410: sched_wakeup: comm=system_server pid=668 prio=118 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.817450: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=system_server next_pid=668 next_prio=118
+   system_server-668   (  668) [001] d..3  1301.817858: sched_switch: prev_comm=system_server prev_pid=668 prev_prio=118 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNH6  1301.820759: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.820770: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [001] d..3  1301.820786: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [001] dNs4  1301.832802: sched_wakeup: comm=rcu_preempt pid=8 prio=120 success=1 target_cpu=001
+          <idle>-0     (-----) [001] d..3  1301.832811: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=rcu_preempt next_pid=8 next_prio=120
+     rcu_preempt-8     (    8) [001] d..3  1301.832828: sched_switch: prev_comm=rcu_preempt prev_pid=8 prev_prio=120 prev_state=S ==> next_comm=swapper/1 next_pid=0 next_prio=120
+          <idle>-0     (-----) [000] dNh4  1301.846380: sched_wakeup: comm=atrace pid=2997 prio=120 success=1 target_cpu=000
+          <idle>-0     (-----) [000] d..3  1301.846913: sched_switch: prev_comm=swapper/0 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=atrace next_pid=2997 next_prio=120
+          atrace-2997  ( 2997) [000] ...1  1301.847078: tracing_mark_write: trace_event_clock_sync: parent_ts=1300.622314
+  </script>
+<!-- END TRACE -->
+</body>
+</html>

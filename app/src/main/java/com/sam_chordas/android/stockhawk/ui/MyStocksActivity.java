@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.facebook.stetho.Stetho;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
@@ -56,6 +57,15 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+
+    Stetho.initialize(
+            Stetho.newInitializerBuilder(this)
+                    .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                    .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                    .build());
+
+
     mContext = this;
     ConnectivityManager cm =
         (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
