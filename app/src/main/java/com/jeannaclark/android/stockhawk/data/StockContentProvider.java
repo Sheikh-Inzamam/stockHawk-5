@@ -31,7 +31,8 @@ public class StockContentProvider {
   public static class Quotes{
     @ContentUri(
         path = Path.QUOTES,
-        type = "vnd.android.cursor.dir/quote"
+        type = "vnd.android.cursor.dir/quote",
+        defaultSort = StockDBContract.NAME + " ASC"
     )
     public static final Uri CONTENT_URI = buildUri(Path.QUOTES);
 
@@ -39,6 +40,7 @@ public class StockContentProvider {
         name = "QUOTE_ID",
         path = Path.QUOTES + "/*",
         type = "vnd.android.cursor.item/quote",
+        defaultSort = StockDBContract.NAME + " ASC",
         whereColumn = StockDBContract.SYMBOL,
         pathSegment = 1
     )

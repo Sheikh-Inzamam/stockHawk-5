@@ -12,13 +12,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
+ * Updated by jeannaClark on 08/10/16.
  * Created by sam_chordas on 10/8/15.
  */
 public class Utility {
 
   private static String LOG_TAG = Utility.class.getSimpleName();
-
-  public static boolean showPercent = true;
 
   public static ArrayList quoteJsonToContentVals(String JSON){
     ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
@@ -72,6 +71,8 @@ public class Utility {
     return change;
   }
 
+  // sample YQL API JSON: https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22AAPL%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=
+
   public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject){
     ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
         StockContentProvider.Quotes.CONTENT_URI);
@@ -88,6 +89,8 @@ public class Utility {
       }else{
         builder.withValue(StockDBContract.ISUP, 1);
       }
+      builder.withValue(StockDBContract.NAME, jsonObject.getString("Name"));
+      builder.withValue(StockDBContract.EXCHANGE, jsonObject.getString("StockExchange"));
 
     } catch (JSONException e){
       e.printStackTrace();

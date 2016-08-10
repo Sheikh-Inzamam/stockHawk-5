@@ -27,14 +27,15 @@ import com.google.android.gms.gcm.Task;
 import com.jeannaclark.android.stockhawk.R;
 import com.jeannaclark.android.stockhawk.data.StockDBContract;
 import com.jeannaclark.android.stockhawk.data.StockContentProvider;
-import com.jeannaclark.android.stockhawk.rest.DividerItemDecoration;
-import com.jeannaclark.android.stockhawk.rest.MainRecyclerViewAdapter;
-import com.jeannaclark.android.stockhawk.rest.RecyclerViewItemClickListener;
+import com.jeannaclark.android.stockhawk.model.DividerItemDecoration;
+import com.jeannaclark.android.stockhawk.model.MainRecyclerViewAdapter;
+import com.jeannaclark.android.stockhawk.model.RecyclerViewItemClickListener;
 import com.jeannaclark.android.stockhawk.service.StockIntentService;
 import com.jeannaclark.android.stockhawk.service.StockTaskService;
 import com.jeannaclark.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
 
 /**
+ * Created by jeannaclark on 08/10/16.
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -66,8 +67,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getActivity(),
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View v, int position) {
-                        //TODO:
-                        // add intent to detail activity
+                        //TODO: add intent to detail activity
                     }
                 }));
         recyclerView.setAdapter(mCursorAdapter);
@@ -163,7 +163,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         // This narrows the return to only the stocks that are most current.
         return new CursorLoader(getContext(), StockContentProvider.Quotes.CONTENT_URI,
                 new String[]{ StockDBContract._ID, StockDBContract.SYMBOL, StockDBContract.BIDPRICE,
-                        StockDBContract.PERCENT_CHANGE, StockDBContract.CHANGE, StockDBContract.ISUP},
+                        StockDBContract.PERCENT_CHANGE, StockDBContract.CHANGE, StockDBContract.ISUP,
+                        StockDBContract.EXCHANGE, StockDBContract.NAME},
                 StockDBContract.ISCURRENT + " = ?",
                 new String[]{"1"},
                 null);
