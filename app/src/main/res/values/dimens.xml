@@ -9,4 +9,10 @@
     <dimen name="two_line_list_font_size_secondary">14sp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="regular_56_font">56sp</dimen>
+    <dimen name="regular_45_font">45sp</dimen>
+    <dimen name="regular_34_font">34sp</dimen>
+    <dimen name="regular_24_font">24sp</dimen>
+    <dimen name="medium_20_font">20sp</dimen>
 </resources>

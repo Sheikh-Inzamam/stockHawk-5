@@ -81,11 +81,11 @@ public class DetailRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         if (stock != null) {
             if (Integer.parseInt(stock.getIsUp()) == 1) {
                 stockViewHolder.getTrendArrow().setImageDrawable(
-                        mContext.getResources().getDrawable(R.drawable.vector_drawable_ic_arrow_upward_white___px));
+                        mContext.getResources().getDrawable(R.drawable.vector_drawable_ic_arrow_upward_black___px));
             }
             else if (Integer.parseInt(stock.getIsUp()) == 0) {
                 stockViewHolder.getTrendArrow().setImageDrawable(
-                        mContext.getResources().getDrawable(R.drawable.vector_drawable_ic_arrow_downward_white___px));
+                        mContext.getResources().getDrawable(R.drawable.vector_drawable_ic_arrow_downward_black___px));
             }
 
             stockViewHolder.getChange().setText(mContext.getString(R.string.xliff_grid_layout_percent_change,

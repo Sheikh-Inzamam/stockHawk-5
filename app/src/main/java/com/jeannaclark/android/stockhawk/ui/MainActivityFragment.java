@@ -74,7 +74,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getActivity(),
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View v, int position) {
-                        String symbol = mCursor.getString(mCursor.getColumnIndex("symbol"));
+                        Cursor cursor = mCursor;
+                        cursor.moveToPosition(position);
+                        String symbol = cursor.getString(cursor.getColumnIndex("symbol"));
 
                         mUri = StockContentProvider.Quotes.withSymbol(symbol);
 

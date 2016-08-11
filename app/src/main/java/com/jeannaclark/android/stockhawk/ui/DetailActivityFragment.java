@@ -141,6 +141,8 @@ public class DetailActivityFragment extends Fragment {
 
             stockInfo = stock.getName() + ": bid-price = " + stock.getBidPrice();
 
+            getActivity().setTitle(stock.getName());
+
             Log.v("Stock name set: ", stock.getName());
 
             mStockDetailList.add(stock);
