@@ -1,11 +1,11 @@
-<resources
-    xmlns:xliff="http://schemas.android.com/tools">
+<resources xmlns:xliff="http://schemas.android.com/tools">
 
     <string name="app_name">Stock Hawk</string>
 
     <string name="xliff_grid_layout_bid_price"><xliff:g bid="bid_price">%s</xliff:g> USD</string>
     <string name="xliff_grid_layout_percent_change"><xliff:g amount_change="amount_change">%s</xliff:g> (<xliff:g percent_change="percent_change">%s</xliff:g>\%)</string>
     <string name="xliff_grid_layout_bid_symbol_exchange"><xliff:g symbol="symbol">%s</xliff:g> (<xliff:g exchange="exchange">%s</xliff:g>)</string>
+    <string name="xliff_grid_layout_exchange_symbol"><xliff:g exchange="exchange">%s</xliff:g>: <xliff:g symbol="symbol">%s</xliff:g></string>
 
     <string name="fab_description">button to add stock to tracking list</string>
 
@@ -15,4 +15,6 @@
     <string name="input_prefill"></string>
     <string name="network_toast">Oops - this app requires an internet connection</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="action_share">Share</string>
 </resources>

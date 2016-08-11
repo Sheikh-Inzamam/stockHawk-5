@@ -13,6 +13,9 @@ import com.jeannaclark.android.stockhawk.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean mTwoPane;
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +25,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setIcon(R.drawable.vector_drawable_ic_trending_up_white___px);
 
-        //TODO: insert mTwoPane layout here + implement detail activity intents
+        if (findViewById(R.id.detail_fragment_container) != null) {
+            mTwoPane = true;
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detail_fragment_container, new DetailActivityFragment(), DETAILFRAGMENT_TAG)
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setElevation(0f);
+            }
+        }
+
+        MainActivityFragment mainActivityFragment = (MainActivityFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_main);
+        if (null != mainActivityFragment) {
+            mainActivityFragment.updateStocks();
+        }
 
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)

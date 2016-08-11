@@ -1,6 +1,7 @@
 package com.jeannaclark.android.stockhawk;
 
 import android.content.ContentProviderOperation;
+import android.net.Uri;
 import android.util.Log;
 
 import com.jeannaclark.android.stockhawk.data.StockContentProvider;
@@ -96,5 +97,9 @@ public class Utility {
       e.printStackTrace();
     }
     return builder.build();
+  }
+
+  public static String getStockSymbolFromUri(Uri uri) {
+    return uri.getPathSegments().get(1);
   }
 }

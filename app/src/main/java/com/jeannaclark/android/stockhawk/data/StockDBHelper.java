@@ -10,7 +10,7 @@ import net.simonvt.schematic.annotation.Table;
 public class StockDBHelper {
   private StockDBHelper(){}
 
-  public static final int VERSION = 3;
+  public static final int VERSION = 1;
 
   @Table(StockDBContract.class) public static final String QUOTES = "quotes";
 }

@@ -19,7 +19,7 @@ import com.jeannaclark.android.stockhawk.touch_helper.ItemTouchHelperAdapter;
  * for the code structure
  */
 public class MainRecyclerViewAdapter extends CursorRecyclerViewAdapter<MainViewHolder>
-    implements ItemTouchHelperAdapter{
+    implements ItemTouchHelperAdapter {
 
   private static Context mContext;
   private boolean isPercent;

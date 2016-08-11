@@ -28,6 +28,7 @@ public class StockContentProvider {
   }
 
   @TableEndpoint(table = StockDBHelper.QUOTES)
+
   public static class Quotes{
     @ContentUri(
         path = Path.QUOTES,

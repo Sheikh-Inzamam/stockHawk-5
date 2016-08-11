@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -44,9 +46,14 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private static final int CURSOR_LOADER_ID = 0;
     private Intent mServiceIntent;
     private ItemTouchHelper mItemTouchHelper;
+    private static final String SELECTED_KEY = "selected_position";
+    private static final String EXTRA_MESSAGE = "Stock data: ";
     private Context mContext;
     private Cursor mCursor;
+    private Uri mUri;
     static boolean isConnected;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private int mPosition = -1;
 
     public MainActivityFragment() {
     }
@@ -60,16 +67,27 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mContext = getContext();
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+        final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getActivity(),
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View v, int position) {
-                        //TODO: add intent to detail activity
+                        String symbol = mCursor.getString(mCursor.getColumnIndex("symbol"));
+
+                        mUri = StockContentProvider.Quotes.withSymbol(symbol);
+
+                        Intent intent = new Intent(getActivity(), DetailActivity.class)
+                                .setData(mUri);
+                        startActivity(intent);
                     }
                 }));
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
+
         recyclerView.setAdapter(mCursorAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity());
         recyclerView.addItemDecoration(itemDecoration);
@@ -111,7 +129,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                                     Cursor c = getActivity().getContentResolver()
                                             .query(StockContentProvider.Quotes.CONTENT_URI,
                                             new String[] { StockDBContract.SYMBOL }, StockDBContract
-                                                            .SYMBOL + "= ?",
+                                                            .SYMBOL + "= ? COLLATE NOCASE",
                                             new String[] { input.toString() }, null);
                                     if (c.getCount() != 0) {
                                         Toast toast =
@@ -139,9 +157,22 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
         updateStocks();
 
+        //TODO: setup swipe to delete delay & Undo option
+
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout)
+                rootView.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.material_blue_500,
+                R.color.material_green_700, R.color.material_red_700);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshStocks();
+            }
+        });
 
         return rootView;
     }
@@ -156,6 +187,14 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (mPosition != -1) {
+            outState.putInt(SELECTED_KEY, mPosition);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -201,5 +240,14 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
             // are updated.
             GcmNetworkManager.getInstance(getActivity()).schedule(periodicTask);
         }
+    }
+
+    public void refreshStocks() {
+
+        //TODO: instant setup YQL refresh
+
+        updateStocks();
+        Toast.makeText(getContext(), "Data refreshed", Toast.LENGTH_LONG).show();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }
