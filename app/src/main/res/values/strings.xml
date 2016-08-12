@@ -8,13 +8,16 @@
     <string name="xliff_grid_layout_exchange_symbol"><xliff:g exchange="exchange">%s</xliff:g>: <xliff:g symbol="symbol">%s</xliff:g></string>
 
     <string name="fab_description">button to add stock to tracking list</string>
+    <string name="description_trend_arrow">image of arrow showing positive or negative trend</string>
 
     <string name="symbol_search">Symbol search</string>
     <string name="content_test">Search for a stock symbol</string>
     <string name="input_hint">GOOGL</string>
     <string name="input_prefill"></string>
+    <string name="title_activity_detail">Detail Activity</string>
+    <string name="title_activity_main">Main Activity</string>
     <string name="network_toast">Oops - this app requires an internet connection</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_detail">DetailActivity</string>
     <string name="action_share">Share</string>
+
+    <string name="empty_view">Gathering the launch data</string>
 </resources>

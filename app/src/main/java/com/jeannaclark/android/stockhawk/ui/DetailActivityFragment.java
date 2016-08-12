@@ -124,8 +124,8 @@ public class DetailActivityFragment extends Fragment {
         Cursor stockCursor = getActivity().getContentResolver().query(
                 mUri,
                 DetailActivityFragment.STOCK_COLUMNS,
-                StockDBContract.SYMBOL + " = ? ",
-                new String[]{ mSymbol },
+                StockDBContract.SYMBOL + " = ? AND " + StockDBContract.ISCURRENT + " = ?",
+                new String[]{ mSymbol , "1"},
                 null);
 
         if (stockCursor.moveToFirst()) {
@@ -142,8 +142,6 @@ public class DetailActivityFragment extends Fragment {
             stockInfo = stock.getName() + ": bid-price = " + stock.getBidPrice();
 
             getActivity().setTitle(stock.getName());
-
-            Log.v("Stock name set: ", stock.getName());
 
             mStockDetailList.add(stock);
         } else {

@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -31,9 +32,11 @@ import com.jeannaclark.android.stockhawk.data.StockDBContract;
 import com.jeannaclark.android.stockhawk.data.StockContentProvider;
 import com.jeannaclark.android.stockhawk.model.DividerItemDecoration;
 import com.jeannaclark.android.stockhawk.model.MainRecyclerViewAdapter;
+import com.jeannaclark.android.stockhawk.model.MainViewHolder;
 import com.jeannaclark.android.stockhawk.model.RecyclerViewItemClickListener;
 import com.jeannaclark.android.stockhawk.service.StockIntentService;
 import com.jeannaclark.android.stockhawk.service.StockTaskService;
+import com.jeannaclark.android.stockhawk.touch_helper.ItemTouchHelperViewHolder;
 import com.jeannaclark.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
 
 /**
@@ -51,6 +54,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private Context mContext;
     private Cursor mCursor;
     private Uri mUri;
+    private View mClickedView;
     static boolean isConnected;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mPosition = -1;
@@ -80,9 +84,17 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
                         mUri = StockContentProvider.Quotes.withSymbol(symbol);
 
-                        Intent intent = new Intent(getActivity(), DetailActivity.class)
-                                .setData(mUri);
-                        startActivity(intent);
+                        ((ItemTouchHelperViewHolder) getActivity()).onItemSelected(mUri);
+
+                        if (mClickedView != null) {
+                            MainViewHolder clickedViewHolder = new MainViewHolder(mClickedView);
+                            clickedViewHolder.onItemClear();
+                        }
+                        MainViewHolder currentViewHolder = new MainViewHolder(v);
+                        currentViewHolder.onItemSelected();
+
+                        mClickedView = v;
+                        mPosition = position;
                     }
                 }));
 
@@ -93,6 +105,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         recyclerView.setAdapter(mCursorAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity());
         recyclerView.addItemDecoration(itemDecoration);
+
+        //TODO: add performClick() on recyclerView to set default tablet detail fragment
 
         ConnectivityManager cm =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);

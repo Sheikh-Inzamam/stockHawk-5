@@ -1,0 +1,21 @@
+<resources xmlns:xliff="http://schemas.android.com/tools">
+
+    <!-- translate these strings into arabic -->
+
+        <string name="app_name">الأسهم هوك</string>
+
+        <string name="xliff_grid_layout_bid_price"><xliff:g bid="bid_price">%s</xliff:g> جنيه</string>
+        <string name="xliff_grid_layout_percent_change"><xliff:g amount_change="amount_change">%s</xliff:g> (<xliff:g percent_change="percent_change">%s</xliff:g>\٪)</string>
+        <string name="xliff_grid_layout_bid_symbol_exchange"><xliff:g symbol="symbol">%s</xliff:g> (<xliff:g exchange="exchange">%s</xliff:g>)</string>
+        <string name="xliff_grid_layout_exchange_symbol"><xliff:g exchange="exchange">%s</xliff:g>: <xliff:g symbol="symbol">%s</xliff:g></string>
+
+        <string name="fab_description">زر لإضافة الأسهم إلى قائمة التتبع</string>
+        <string name="description_trend_arrow">صورة السهم تظهر الاتجاه الإيجابي أو السلبي</string>
+
+        <string name="symbol_search">بحث رمز</string>
+        <string name="content_test">البحث عن رمز السهم</string>
+        <string name="input_hint">GOOGL</string>
+        <string name="input_prefill"></string>
+        <string name="network_toast">عفوا - هذا التطبيق يتطلب اتصال بالإنترنت</string>
+        <string name="action_share">Share</string>
+</resources>

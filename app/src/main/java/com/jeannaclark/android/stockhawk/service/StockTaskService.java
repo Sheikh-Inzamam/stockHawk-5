@@ -42,7 +42,7 @@ public class StockTaskService extends GcmTaskService{
   public StockTaskService(Context context){
     mContext = context;
   }
-  String fetchData(String url) throws IOException{
+  String fetchData(String url) throws IOException {
     Request request = new Request.Builder()
         .url(url)
         .build();
@@ -114,7 +114,7 @@ public class StockTaskService extends GcmTaskService{
 
     if (urlStringBuilder != null){
       urlString = urlStringBuilder.toString();
-      try{
+      try {
         getResponse = fetchData(urlString);
         result = GcmNetworkManager.RESULT_SUCCESS;
         try {
@@ -127,7 +127,7 @@ public class StockTaskService extends GcmTaskService{
           }
           mContext.getContentResolver().applyBatch(StockContentProvider.AUTHORITY,
               Utility.quoteJsonToContentVals(getResponse));
-        }catch (RemoteException | OperationApplicationException e){
+        } catch (RemoteException | OperationApplicationException e){
           Log.e(LOG_TAG, "Error applying batch insert", e);
         }
       } catch (IOException e){

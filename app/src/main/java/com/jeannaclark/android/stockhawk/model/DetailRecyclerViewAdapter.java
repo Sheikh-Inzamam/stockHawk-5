@@ -34,11 +34,10 @@ public class DetailRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public int getItemViewType(int position) {
         if (items.get(position) instanceof Stock) {
             return STOCK;
-        } else {
+        } else if (items.get(position) instanceof Chart) {
             return CHART;
         }
-
-        //TODO: change to else if (instanceof Chart) & else {return -1}
+        return -1;
     }
 
     @Override
@@ -99,7 +98,18 @@ public class DetailRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     private void configureChartViewHolder(DetailChartViewHolder chartViewHolder, int position) {
 
-        //TODO: insert chart view data
+        Chart chart = (Chart) items.get(position);
 
+        if (chart != null) {
+
+            //TODO: configure line charts for 1 day, 1 week, & 1 month
+            // x = time of day
+            // y = bid price
+            // allow chart onClick to display a box of bid price, time, and date for selected location on line
+
+
+//            chartViewHolder.getLineChartView().addData();
+
+        }
     }
 }

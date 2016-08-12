@@ -1,56 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/two_line_list_height"
-    android:columnCount="2"
     android:orientation="horizontal"
     android:paddingStart="@dimen/activity_horizontal_margin"
-    android:paddingEnd="@dimen/activity_horizontal_margin"
-    android:rowCount="2">
-
-    <TextView
-        android:id="@+id/stock_name"
-        style="@style/GridLayoutLineOneTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/grid_layout_row_height"
-        android:gravity="bottom"
-        android:text="test" />
-
-    <TextView
-        android:id="@+id/bid_price"
-        style="@style/GridLayoutLineOneTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/grid_layout_row_height"
-        android:layout_gravity="end"
-        android:gravity="bottom"/>
-
-    <TextView
-        android:id="@+id/stock_symbol"
-        style="@style/GridLayoutLineTwoTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/grid_layout_row_height"
-        android:gravity="top"/>
+    android:paddingEnd="@dimen/activity_horizontal_margin">
 
     <LinearLayout
-        android:id="@+id/change_arrow_linear"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:gravity="top">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/change"
-            style="@style/PercentChangeTextStyle"
+            android:id="@+id/stock_name"
+            style="@style/GridLayoutLineOneTextStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:layout_height="@dimen/grid_layout_row_height"
+            android:gravity="bottom" />
 
-        <ImageView
-            android:id="@+id/trend_arrow"
-            android:layout_gravity="center_vertical"
+        <TextView
+            android:id="@+id/stock_symbol"
+            style="@style/GridLayoutLineTwoTextStyle"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/two_line_list_font_size" />
+            android:layout_height="@dimen/grid_layout_row_height"
+            android:gravity="top"/>
+
     </LinearLayout>
 
-</GridLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1.2"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/bid_price"
+            style="@style/GridLayoutLineOneTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/grid_layout_row_height"
+            android:layout_gravity="end"
+            android:gravity="bottom"/>
+
+        <LinearLayout
+            android:id="@+id/change_arrow_linear"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="top">
+
+            <TextView
+                android:id="@+id/change"
+                style="@style/PercentChangeTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/trend_arrow"
+                android:contentDescription="@string/description_trend_arrow"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/two_line_list_font_size" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

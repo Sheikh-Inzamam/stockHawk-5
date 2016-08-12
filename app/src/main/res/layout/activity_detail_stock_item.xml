@@ -44,6 +44,7 @@
 
             <ImageView
                 android:id="@+id/detail_trend_arrow"
+                android:contentDescription="@string/description_trend_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

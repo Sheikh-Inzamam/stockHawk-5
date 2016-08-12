@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.jeannaclark.android.stockhawk.data.StockContentProvider;
 import com.jeannaclark.android.stockhawk.data.StockDBContract;
+import com.jeannaclark.android.stockhawk.model.Stock;
 
 import java.util.ArrayList;
 import org.json.JSONArray;
@@ -101,5 +102,17 @@ public class Utility {
 
   public static String getStockSymbolFromUri(Uri uri) {
     return uri.getPathSegments().get(1);
+  }
+
+  public static Stock localizeEgypt(Stock stock) {
+    //TODO: add USD to EGP conversion for the Egypt localization
+    //  Locale myLocale = getResources().getConfiguration().locale;
+    //  Log.i("locale", Currency.getInstance(myLocale).getCurrencyCode());
+    //  NumberFormat.getInstance(myLocale);
+    //  DateUtils....
+    //  NumberFormat.getCurrencyInstance(myLocale);
+    //  NumberFormat.getPercentInstance(myLocale);
+    // update stock object to the locale formats
+    return stock;
   }
 }
