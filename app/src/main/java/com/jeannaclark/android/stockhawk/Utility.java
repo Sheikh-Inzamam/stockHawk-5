@@ -8,6 +8,7 @@ import com.jeannaclark.android.stockhawk.data.StockContentProvider;
 import com.jeannaclark.android.stockhawk.data.StockDBContract;
 import com.jeannaclark.android.stockhawk.model.Stock;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,12 +28,14 @@ public class Utility {
     JSONArray resultsArray = null;
     try{
       jsonObject = new JSONObject(JSON);
-      if (jsonObject != null && jsonObject.length() != 0){
         jsonObject = jsonObject.getJSONObject("query");
         int count = Integer.parseInt(jsonObject.getString("count"));
         if (count == 1){
           jsonObject = jsonObject.getJSONObject("results")
               .getJSONObject("quote");
+          if (jsonObject.getString("Bid").contains("null")) {
+            throw new JSONException("JSON object elements are null: " + jsonObject.toString());
+          }
           batchOperations.add(buildBatchOperation(jsonObject));
         } else{
           resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
@@ -40,11 +43,10 @@ public class Utility {
           if (resultsArray != null && resultsArray.length() != 0){
             for (int i = 0; i < resultsArray.length(); i++){
               jsonObject = resultsArray.getJSONObject(i);
-              batchOperations.add(buildBatchOperation(jsonObject));
+                batchOperations.add(buildBatchOperation(jsonObject));
             }
           }
         }
-      }
     } catch (JSONException e){
       Log.e(LOG_TAG, "String to JSON failed: " + e);
     }
@@ -52,52 +54,51 @@ public class Utility {
   }
 
   public static String truncateBidPrice(String bidPrice){
-    bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
-    return bidPrice;
+      bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
+      return bidPrice;
   }
 
   public static String truncateChange(String change, boolean isPercentChange){
     String weight = change.substring(0,1);
     String ampersand = "";
-    if (isPercentChange){
-      ampersand = change.substring(change.length() - 1, change.length());
-      change = change.substring(0, change.length() - 1);
-    }
-    change = change.substring(1, change.length());
-    double round = (double) Math.round(Double.parseDouble(change) * 100) / 100;
-    change = String.format("%.2f", round);
-    StringBuffer changeBuffer = new StringBuffer(change);
-    changeBuffer.insert(0, weight);
-    changeBuffer.append(ampersand);
-    change = changeBuffer.toString();
-    return change;
+      if (isPercentChange) {
+        ampersand = change.substring(change.length() - 1, change.length());
+        change = change.substring(0, change.length() - 1);
+      }
+      change = change.substring(1, change.length());
+      double round = (double) Math.round(Double.parseDouble(change) * 100) / 100;
+      change = String.format("%.2f", round);
+      StringBuffer changeBuffer = new StringBuffer(change);
+      changeBuffer.insert(0, weight);
+      changeBuffer.append(ampersand);
+      change = changeBuffer.toString();
+      return change;
   }
 
   // sample YQL API JSON: https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22AAPL%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=
 
-  public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject){
+  public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject) {
     ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
-        StockContentProvider.Quotes.CONTENT_URI);
-    try {
-      String change = jsonObject.getString("Change");
-      builder.withValue(StockDBContract.SYMBOL, jsonObject.getString("symbol"));
-      builder.withValue(StockDBContract.BIDPRICE, truncateBidPrice(jsonObject.getString("Bid")));
-      builder.withValue(StockDBContract.PERCENT_CHANGE, truncateChange(
-          jsonObject.getString("ChangeinPercent"), true));
-      builder.withValue(StockDBContract.CHANGE, truncateChange(change, false));
-      builder.withValue(StockDBContract.ISCURRENT, 1);
-      if (change.charAt(0) == '-'){
-        builder.withValue(StockDBContract.ISUP, 0);
-      }else{
-        builder.withValue(StockDBContract.ISUP, 1);
+            StockContentProvider.Quotes.CONTENT_URI);
+      try {
+          String change = jsonObject.getString("Change");
+          builder.withValue(StockDBContract.SYMBOL, jsonObject.getString("symbol"));
+          builder.withValue(StockDBContract.BIDPRICE, truncateBidPrice(jsonObject.getString("Bid")));
+          builder.withValue(StockDBContract.PERCENT_CHANGE, truncateChange(
+                  jsonObject.getString("ChangeinPercent"), true));
+          builder.withValue(StockDBContract.CHANGE, truncateChange(change, false));
+          builder.withValue(StockDBContract.ISCURRENT, 1);
+          if (change.charAt(0) == '-') {
+            builder.withValue(StockDBContract.ISUP, 0);
+          } else {
+            builder.withValue(StockDBContract.ISUP, 1);
+          }
+          builder.withValue(StockDBContract.NAME, jsonObject.getString("Name"));
+          builder.withValue(StockDBContract.EXCHANGE, jsonObject.getString("StockExchange"));
+      } catch (JSONException e) {
+        e.printStackTrace();
       }
-      builder.withValue(StockDBContract.NAME, jsonObject.getString("Name"));
-      builder.withValue(StockDBContract.EXCHANGE, jsonObject.getString("StockExchange"));
-
-    } catch (JSONException e){
-      e.printStackTrace();
-    }
-    return builder.build();
+   return builder.build();
   }
 
   public static String getStockSymbolFromUri(Uri uri) {

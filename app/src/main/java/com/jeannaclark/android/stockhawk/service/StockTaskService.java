@@ -46,8 +46,8 @@ public class StockTaskService extends GcmTaskService{
     Request request = new Request.Builder()
         .url(url)
         .build();
-
     Response response = client.newCall(request).execute();
+    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
     return response.body().string();
   }
 
@@ -111,8 +111,6 @@ public class StockTaskService extends GcmTaskService{
     String urlString;
     String getResponse;
     int result = GcmNetworkManager.RESULT_FAILURE;
-
-    if (urlStringBuilder != null){
       urlString = urlStringBuilder.toString();
       try {
         getResponse = fetchData(urlString);
@@ -133,9 +131,6 @@ public class StockTaskService extends GcmTaskService{
       } catch (IOException e){
         e.printStackTrace();
       }
-    }
-
     return result;
   }
-
 }
