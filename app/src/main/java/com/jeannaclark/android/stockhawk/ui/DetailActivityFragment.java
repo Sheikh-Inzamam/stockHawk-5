@@ -1,7 +1,10 @@
 package com.jeannaclark.android.stockhawk.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -16,12 +19,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
 import com.jeannaclark.android.stockhawk.R;
 import com.jeannaclark.android.stockhawk.Utility;
 import com.jeannaclark.android.stockhawk.data.StockDBContract;
+import com.jeannaclark.android.stockhawk.model.Chart;
 import com.jeannaclark.android.stockhawk.model.DetailRecyclerViewAdapter;
 import com.jeannaclark.android.stockhawk.model.Stock;
+import com.jeannaclark.android.stockhawk.service.StockIntentService;
 
 
 import java.util.ArrayList;
@@ -38,6 +43,9 @@ public class DetailActivityFragment extends Fragment {
     private String stockInfo;
     private String mSymbol;
     private DetailRecyclerViewAdapter mStockAdapter;
+    static boolean isConnected;
+    private Intent mServiceIntent;
+    private Context mContext;
     private Uri mUri;
 
     public static final String[] STOCK_COLUMNS = {
@@ -74,7 +82,9 @@ public class DetailActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         RecyclerView recyclerViewStock = (RecyclerView) rootView.findViewById(R.id.detail_recycler_view);
 
-        mStockAdapter= new DetailRecyclerViewAdapter(mStockDetailList);
+        mContext = getContext();
+
+        mStockAdapter = new DetailRecyclerViewAdapter(mStockDetailList);
         recyclerViewStock.setAdapter(mStockAdapter);
 
         recyclerViewStock.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -104,6 +114,7 @@ public class DetailActivityFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         if (null != mUri) {
             updateStocks();
+//            fetchQuote();
         }
         super.onActivityCreated(savedInstanceState);
     }
@@ -117,15 +128,13 @@ public class DetailActivityFragment extends Fragment {
     }
 
     public void updateStocks() {
-        Log.v("in update stocks: ", mUri.toString());
-
         mSymbol = Utility.getStockSymbolFromUri(mUri);
 
         Cursor stockCursor = getActivity().getContentResolver().query(
                 mUri,
                 DetailActivityFragment.STOCK_COLUMNS,
                 StockDBContract.SYMBOL + " = ? AND " + StockDBContract.ISCURRENT + " = ?",
-                new String[]{ mSymbol , "1"},
+                new String[]{mSymbol, "1"},
                 null);
 
         if (stockCursor.moveToFirst()) {
@@ -148,6 +157,30 @@ public class DetailActivityFragment extends Fragment {
             Log.v(LOG_TAG, "stockCursor returned null");
         }
         stockCursor.close();
+        mStockAdapter.notifyDataSetChanged();
+    }
+
+    public void fetchQuote() {
+        ConnectivityManager cm =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        mServiceIntent = new Intent(mContext, StockIntentService.class);
+
+        mServiceIntent.putExtra("tag", "quote");
+        mServiceIntent.putExtra("detailSymbol", mSymbol);
+
+        if (isConnected) {
+            getActivity().startService(mServiceIntent);
+        } else {
+            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+        }
+
+        Chart chart = getActivity().getIntent().getParcelableExtra("chart");
+        mStockDetailList.add(chart);
         mStockAdapter.notifyDataSetChanged();
     }
 }

@@ -86,6 +86,7 @@ public class MainRecyclerViewAdapter extends CursorRecyclerViewAdapter<MainViewH
     String symbol = c.getString(c.getColumnIndex(StockDBContract.SYMBOL));
     mContext.getContentResolver().delete(StockContentProvider.Quotes.withSymbol(symbol), null, null);
     notifyItemRemoved(position);
+    c.close();
   }
 
   @Override public int getItemCount() {

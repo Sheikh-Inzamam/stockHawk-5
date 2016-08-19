@@ -20,9 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
@@ -74,6 +72,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
+        recyclerView.setFocusable(true);
 
         recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(getActivity(),
                 new RecyclerViewItemClickListener.OnItemClickListener() {
@@ -95,6 +94,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
                         mClickedView = v;
                         mPosition = position;
+                        cursor.close();
                     }
                 }));
 
@@ -106,7 +106,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity());
         recyclerView.addItemDecoration(itemDecoration);
 
-        //TODO: add performClick() on recyclerView to set default tablet detail fragment
+        //TODO: add onStart() performClick() on recyclerView to set default tablet detail fragment
 
         ConnectivityManager cm =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -160,6 +160,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                                         mServiceIntent.putExtra("symbol", input.toString());
                                         getActivity().startService(mServiceIntent);
                                     }
+                                    c.close();
                                 }
                             })
                             .show();
@@ -259,9 +260,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     }
 
     public void refreshStocks() {
-
-        //TODO: instant setup YQL refresh
-
         updateStocks();
         Toast.makeText(getContext(), "Data refreshed", Toast.LENGTH_LONG).show();
         mSwipeRefreshLayout.setRefreshing(false);

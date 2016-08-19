@@ -23,14 +23,15 @@
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fab"
+            android:stateListAnimator="@drawable/fab_raise"
+            android:focusable="true"
+            android:contentDescription="@string/fab_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/fab_margin"
             android:backgroundTint="@color/material_accent_A200"
-            android:contentDescription="@string/fab_description"
             android:src="@drawable/vector_drawable_ic_add_white___px"
-            android:stateListAnimator="@drawable/fab_raise"
             fab:fab_colorNormal="@color/material_accent_A200"
             fab:fab_colorPressed="@color/material_accent_A200"
             fab:fab_colorRipple="@color/ripple"

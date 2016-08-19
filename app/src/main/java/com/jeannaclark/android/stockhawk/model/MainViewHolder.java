@@ -2,9 +2,7 @@ package com.jeannaclark.android.stockhawk.model;
 
 import android.graphics.Color;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

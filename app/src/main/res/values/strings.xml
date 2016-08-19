@@ -2,17 +2,18 @@
 
     <string name="app_name">Stock Hawk</string>
 
-    <string name="xliff_grid_layout_bid_price"><xliff:g bid="bid_price">%s</xliff:g> USD</string>
-    <string name="xliff_grid_layout_percent_change"><xliff:g amount_change="amount_change">%s</xliff:g> (<xliff:g percent_change="percent_change">%s</xliff:g>\%)</string>
-    <string name="xliff_grid_layout_bid_symbol_exchange"><xliff:g symbol="symbol">%s</xliff:g> (<xliff:g exchange="exchange">%s</xliff:g>)</string>
-    <string name="xliff_grid_layout_exchange_symbol"><xliff:g exchange="exchange">%s</xliff:g>: <xliff:g symbol="symbol">%s</xliff:g></string>
+    <string name="xliff_grid_layout_bid_price" translatable="false"><xliff:g bid="bid_price">%s</xliff:g> USD</string>
+    <string name="xliff_grid_layout_percent_change" translatable="false"><xliff:g amount_change="amount_change">%s</xliff:g> (<xliff:g percent_change="percent_change">%s</xliff:g>\%)</string>
+    <string name="xliff_grid_layout_bid_symbol_exchange" translatable="false"><xliff:g symbol="symbol">%s</xliff:g> (<xliff:g exchange="exchange">%s</xliff:g>)</string>
+    <string name="xliff_grid_layout_exchange_symbol" translatable="false"><xliff:g exchange="exchange">%s</xliff:g>: <xliff:g symbol="symbol">%s</xliff:g></string>
 
     <string name="fab_description">button to add stock to tracking list</string>
     <string name="description_trend_arrow">image of arrow showing positive or negative trend</string>
+    <string name="chart_description">chart of historical stock quote data showing value over time </string>
 
     <string name="symbol_search">Symbol search</string>
     <string name="content_test">Search for a stock symbol</string>
-    <string name="input_hint">GOOGL</string>
+    <string name="input_hint" translatable="false">GOOGL</string>
     <string name="input_prefill"></string>
     <string name="title_activity_detail">Detail Activity</string>
     <string name="title_activity_main">Main Activity</string>

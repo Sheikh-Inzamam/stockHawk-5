@@ -11,6 +11,7 @@
 
         <string name="fab_description">زر لإضافة الأسهم إلى قائمة التتبع</string>
         <string name="description_trend_arrow">صورة السهم تظهر الاتجاه الإيجابي أو السلبي</string>
+    <string name="chart_description">الرسم البياني للبيانات أسعار الأسهم التاريخية التي تبين القيمة بمرور الوقت</string>
 
         <string name="symbol_search">بحث رمز</string>
         <string name="content_test">البحث عن رمز السهم</string>

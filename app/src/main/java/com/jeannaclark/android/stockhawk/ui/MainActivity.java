@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-
 import com.facebook.stetho.Stetho;
 import com.jeannaclark.android.stockhawk.R;
 import com.jeannaclark.android.stockhawk.touch_helper.ItemTouchHelperViewHolder;

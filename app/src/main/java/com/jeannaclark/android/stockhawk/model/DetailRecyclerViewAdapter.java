@@ -102,13 +102,14 @@ public class DetailRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         if (chart != null) {
 
-            //TODO: configure line charts for 1 day, 1 week, & 1 month
-            // x = time of day
+            //TODO: configure line chart for 1 week
+            // x = date
             // y = bid price
-            // allow chart onClick to display a box of bid price, time, and date for selected location on line
-
 
 //            chartViewHolder.getLineChartView().addData();
+
+
+
 
         }
     }

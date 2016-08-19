@@ -3,7 +3,6 @@ package com.jeannaclark.android.stockhawk.ui;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
 import com.jeannaclark.android.stockhawk.R;
 
 public class DetailActivity extends AppCompatActivity {

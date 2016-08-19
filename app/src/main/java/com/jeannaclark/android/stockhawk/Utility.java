@@ -3,12 +3,10 @@ package com.jeannaclark.android.stockhawk;
 import android.content.ContentProviderOperation;
 import android.net.Uri;
 import android.util.Log;
-
 import com.jeannaclark.android.stockhawk.data.StockContentProvider;
 import com.jeannaclark.android.stockhawk.data.StockDBContract;
+import com.jeannaclark.android.stockhawk.model.Chart;
 import com.jeannaclark.android.stockhawk.model.Stock;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +51,19 @@ public class Utility {
     return batchOperations;
   }
 
+  public static Chart quoteJsonToChart(String JSON) {
+    Chart chart = new Chart();
+    JSONObject jsonObject = null;
+    JSONArray resultsArray = null;
+
+
+    // TODO: parse chart data & batchInsert into the database
+
+
+
+    return chart;
+  }
+
   public static String truncateBidPrice(String bidPrice){
       bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
       return bidPrice;
@@ -74,8 +85,6 @@ public class Utility {
       change = changeBuffer.toString();
       return change;
   }
-
-  // sample YQL API JSON: https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22AAPL%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=
 
   public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject) {
     ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
